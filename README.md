@@ -1,7 +1,7 @@
-# MyPython kernel for Jupyter
-[Example](https://github.com/nufeng1999/jupyter-MyPython-kernel/blob/master/example/jupyter_python_readme.ipynb "Example")
+# MyNodejs kernel for Jupyter
+[Example](https://github.com/nufeng1999/jupyter-MyNodejs-kernel/blob/master/example/jupyter_nodejs_readme.ipynb "Example")
 * Make sure you have the following requirements installed:
-  * 
+  * nodejs
   * jupyter
   * python 3
   * pip
@@ -9,10 +9,10 @@
 ### Step-by-step
 
 ```bash
-git clone https://github.com/nufeng1999/jupyter-MyPython-kernel.git
-cd jupyter-MyPython-kernel
+git clone https://github.com/nufeng1999/jupyter-MyNodejs-kernel.git
+cd jupyter-MyNodejs-kernel
 pip install -e .  # for system install: sudo install .
-cd jupyter_MyPython_kernel && install_MyPython_kernel --user # for sys install: sudo install_dart_kernel
+cd jupyter_MyNodejs_kernel && install_MyNodejs_kernel --user # for sys install: sudo install_dart_kernel
 # now you can start the notebook
 jupyter notebook
 ```
