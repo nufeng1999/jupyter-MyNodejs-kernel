@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(name='jupyter_MyNodejs_kernel',
       version='0.0.1',
-      description='Minimalistic Python kernel for Jupyter',
+      description='Minimalistic Nodejs kernel for Jupyter',
       author='nufeng',
       author_email='18478162@qq.com',
       license='MIT',
