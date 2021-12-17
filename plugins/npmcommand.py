@@ -1,6 +1,7 @@
 from typing import Dict, Tuple, Sequence,List
 from plugins.ISpecialID import IStag,IDtag,IBtag,ITag
 import os
+import re
 class MyNpmcommand(IStag):
     kobj=None
     def getName(self) -> str:
@@ -44,9 +45,10 @@ class MyNpmcommand(IStag):
     def on_after_completion(self,returncode,execfile,magics)->bool:
         return False
     def commandhander(self,key, value,magics,line):
-        # self.kobj._write_to_stdout(value+"\n")
-        for flag in value.split():
-            magics[key] += [flag]
+        cmds=[]
+        for argument in re.findall(r'(?:[^\s,"]|"(?:\\.|[^"])*")+', value.strip()):
+            cmds += [argument.strip('"')]
+        magics['npmcmd']=cmds
         if len(magics['npmcmd'])>0:
             self.do_npm_command(self,magics['npmcmd'],magics=magics)
         return ''
@@ -57,13 +59,7 @@ class MyNpmcommand(IStag):
             if magics!=None and len(self.kobj.addkey2dict(magics,'showpid'))>0:
                 self.kobj._logln("The process PID:"+str(p.pid))
             returncode=p.wait_end(magics)
-            # while p.poll() is None:
-            #     p.write_contents()
-            # # wait for threads to finish, so output is always shown
-            # p._stdout_thread.join()
-            # p._stderr_thread.join()
-            # del self.kobj.g_rtsps[str(p.pid)]
-            # p.write_contents()
+            del self.kobj.g_rtsps[str(p.pid)]
             if returncode != 0:
                 self.kobj._logln("Executable exited with code {}".format(returncode),3)
             else:
