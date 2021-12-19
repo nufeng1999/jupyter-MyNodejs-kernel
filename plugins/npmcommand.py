@@ -54,7 +54,11 @@ class MyNpmcommand(IStag):
         return ''
     def do_npm_command(self,commands=None,cwd=None,magics=None):
         try:
-            p = self.kobj.create_jupyter_subprocess(['npm']+commands,cwd=os.path.abspath(''),shell=False,magics=magics)
+            # self.kobj._logln("do_npm_command......")
+            npmcmd=['npm']
+            if(self.kobj.sys=="Windows"):
+                npmcmd=['cmd','/c','npm']
+            p = self.kobj.create_jupyter_subprocess(npmcmd+commands,cwd=os.path.abspath(''),shell=False,magics=magics)
             self.kobj.g_rtsps[str(p.pid)]=p
             if magics!=None and len(self.kobj.addkey2dict(magics,'showpid'))>0:
                 self.kobj._logln("The process PID:"+str(p.pid))
