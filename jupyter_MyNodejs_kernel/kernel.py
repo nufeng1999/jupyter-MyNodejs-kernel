@@ -1,3 +1,4 @@
+##//%file:kernel.py
 #
 #   MyPython Jupyter Kernel
 #
@@ -415,7 +416,7 @@ echo "OK"
     def cleanCnotes(self,code):
         return re.sub(r"//.*", "", code)
     def cleannotes(self,line):
-        return '' if (not self._is_specialID(line)) and (line.lstrip().startswith('##') or line.lstrip().startswith('//')) else line
+        return '' if (not self._is_specialID(line)) and (line.lstrip().startswith('## ') or line.lstrip().startswith('//')) else line
     isdqm=False##清除双引号多行注释
     def cleandqmA(self,code):
         return re.sub(r"\"\"\".*?\"\"\"", "", code, flags=re.M|re.S)
@@ -880,7 +881,7 @@ echo "OK"
             bcancel_exec,retstr=self.raise_plugin(code,magics,return_code,fil_ename,1,2)
             if bcancel_exec:return  self.get_retinfo()
             fil_ename=magics['codefilename']
-            if len(self.addkey2dict(magics,'noruncode'))>0:
+            if len(self.get_magicsbykey(magics,'noruncode'))>0:
                 bcancel_exec=True
                 return self.get_retinfo()
             bcancel_exec,retstr=self.raise_plugin(code,magics,return_code,fil_ename,2,1)
@@ -891,7 +892,7 @@ echo "OK"
             if bcancel_exec:return  retinfo
             bcancel_exec,retstr=self.raise_plugin(code,magics,return_code,fil_ename,2,2)
             if bcancel_exec:return  self.get_retinfo()
-            if len(self.addkey2dict(magics,'onlycompile'))>0:
+            if len(self.get_magicsbykey(magics,'onlycompile'))>0:
                 self._log("only run compile \n")
                 bcancel_exec=True
                 return retinfo
@@ -928,7 +929,7 @@ echo "OK"
             bcancel_exec,retstr=self.raise_plugin(code,magics,return_code,fil_ename,1,2)
             if bcancel_exec:return  self.get_retinfo()
             fil_ename=magics['codefilename']
-            if len(self.addkey2dict(magics,'noruncode'))>0:
+            if len(self.get_magicsbykey(magics,'noruncode'))>0:
                 bcancel_exec=True
                 return self.get_retinfo()
             bcancel_exec,retstr=self.raise_plugin(code,magics,return_code,fil_ename,2,1)
@@ -939,7 +940,7 @@ echo "OK"
             if bcancel_exec:return  self.get_retinfo()
             bcancel_exec,retstr=self.raise_plugin(code,magics,return_code,fil_ename,2,2)
             if bcancel_exec:return  self.get_retinfo()
-            if len(self.addkey2dict(magics,'onlycompile'))>0:
+            if len(self.get_magicsbykey(magics,'onlycompile'))>0:
                 self._log("only run compile \n")
                 bcancel_exec=True
                 return retinfo
@@ -973,7 +974,7 @@ echo "OK"
             bcancel_exec,retstr=self.raise_plugin(code,magics,return_code,fil_ename,1,2)
             if bcancel_exec:return  self.get_retinfo()
             fil_ename=magics['codefilename']
-            if len(self.addkey2dict(magics,'noruncode'))>0:
+            if len(self.get_magicsbykey(magics,'noruncode'))>0:
                 bcancel_exec=True
                 return self.get_retinfo()
             bcancel_exec,retstr=self.raise_plugin(code,magics,return_code,fil_ename,3,1)
@@ -1035,7 +1036,7 @@ echo "OK"
         retinfo=self.get_retinfo()
         if len(code.strip())<1:return retinfo
         magics, code = self.mag.filter(code)
-        if (len(self.get_magicsBvalue(magics,'onlyrunmagics'))>0 or len(self.get_magicsBvalue(magics,'onlyruncmd'))>0):
+        if (len(self.get_magicsbykey(magics,'onlyrunmagics'))>0 or len(self.get_magicsbykey(magics,'onlyruncmd'))>0):
             bcancel_exec=True
             return retinfo
         if len(self.get_magicsBvalue(magics,'replcmdmode'))>0:
@@ -1203,13 +1204,14 @@ class MyNodejsKernel(MyKernel):
                      'nbconvert_exporter': 'javascript',
                      'file_extension': '.js'}
     runfiletype='script'
-    banner = "MyPython kernel.\n" \
+    banner = "MyNodejs kernel.\n" \
              "Uses nodejs, creates source code files and executables in temporary folder.\n"
     kernelinfo="[MyNodejs]"
     main_head = "\n" \
             "\n" \
             "int main(List<String> arguments){\n"
     main_foot = "\nreturn 0;\n}"
+##//%include:src/comm_attribute.py
     def __init__(self, *args, **kwargs):
         super(MyNodejsKernel, self).__init__(*args, **kwargs)
         self._allow_stdin = True
@@ -1218,6 +1220,8 @@ class MyNodejsKernel(MyKernel):
         self.linkMaths = True # always link math library
         self.wAll = True # show all warnings by default
         self.wError = False # but keep comipiling for warnings
+        
+#################
     def do_runcode(self,return_code,fil_ename,magics,code, silent, store_history=True,
                     user_expressions=None, allow_stdin=True):
         return_code=return_code
