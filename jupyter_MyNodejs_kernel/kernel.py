@@ -1261,7 +1261,7 @@ class MyNodejsKernel(MyKernel):
     implementation = 'jupyter-MyNodejs-kernel'
     implementation_version = '1.0'
     language = 'javascript'
-    language_version = sys.version.split()[0]
+    language_version = ''
     language_info = {'name': 'javascript',
                      'version': sys.version.split()[0],
                      'mimetype': 'text/javascript',
