@@ -797,8 +797,10 @@ echo "OK"
             cstr=''
             for x in cmd: cstr+=x+" "
             self._logln(cstr)
+            self._logln('-------------outencode')
             if(outencode==None or len(outencode)<0):
                 outencode=self.get_outencode(magics)
+                self._logln(outencode)
             if(len(outencode)<0):
                 outencode='UTF-8'
             return RealTimeSubprocess(cmd,
