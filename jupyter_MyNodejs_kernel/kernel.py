@@ -797,18 +797,16 @@ echo "OK"
             cstr=''
             for x in cmd: cstr+=x+" "
             self._logln(cstr)
-            self._logln('-------------outencode')
-            if(outencode==None or len(outencode)<0):
+            if(magics!=None and (outencode==None or len(outencode)<0)):
                 outencode=self.get_outencode(magics)
-                self._logln(outencode)
-            if(len(outencode)<0):
+            if(outencode==None or len(outencode)<0):
                 outencode='UTF-8'
             return RealTimeSubprocess(cmd,
                                   self._write_to_stdout,
                                   self._write_to_stderr,
                                   self._read_from_stdin,cwd,shell,env,self,outencode=outencode)
         except Exception as e:
-            self._write_to_stdout("RealTimeSubprocess err:"+str(e))
+            self._logln("RealTimeSubprocess err:"+str(e),3)
             raise
     def getossubsys(self):
         uname=''
